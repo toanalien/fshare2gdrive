@@ -194,7 +194,7 @@ async function transfer(fshare_file, remote_drive, remote_path) {
 			console.log(fshare_download_url)
 		} else {
 			rclone_path = `"${remote_drive}":"${remote_path.replace(/\/$/,'')}/${file_name}"`
-			transfer_cmd = `curl -s "${fshare_download_url}" | rclone rcat --stats-one-line -P --stats 2s ${rclone_path}`
+			transfer_cmd = `curl -o "${file_name}" "${fshare_download_url}" | rclone move --stats-one-line -P --stats 2s ${file_name} ${rclone_path}`
 			console.error(GREEN, `Uploading ${fshare_file} to rclone path ${rclone_path}. Please wait...`)
 			console.log(transfer_cmd)
 		}
@@ -215,7 +215,7 @@ async function genCmd(fshare_folder, remote_drive, remote_path, page=1, is_root_
 		const body = await request(options, false)
 		const promises = body.items.map(async item => {
 			if (item.type === 1) {
-				let cmd = `curl -s https://raw.githubusercontent.com/duythongle/fshare2gdrive/master/fshare2gdrive.js | tail -n+2 | node - "https://fshare.vn/file/${item.linkcode}" "${remote_drive}" "${remote_path.replace(/\/$/,'')}/${(is_root_folder ? body.current.name + '/' : '')}" | bash -s`
+				let cmd = `curl -s https://raw.githubusercontent.com/toanalien/fshare2gdrive/master/fshare2gdrive.js | tail -n+2 | node - "https://fshare.vn/file/${item.linkcode}" "${remote_drive}" "${remote_path.replace(/\/$/,'')}/${(is_root_folder ? body.current.name + '/' : '')}" | bash -s`
 				console.log(cmd)
 			}	else {
 				item_folder = `https://fshare.vn/folder/${item.linkcode}`
