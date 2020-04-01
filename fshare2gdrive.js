@@ -188,7 +188,8 @@ async function transfer(fshare_file, remote_drive, remote_path) {
 	}
 	try {
 		body = await request(options, JSON.stringify(data))
-		fshare_download_url = body.location
+        fshare_download_url = body.location
+        console.log(fshare_download_url)
 		file_name = decodeURI(fshare_download_url.match(/http.+\/(.+?)$/)[1])
 		if (remote_drive === undefined || remote_path === undefined) {
 			console.log(fshare_download_url)
