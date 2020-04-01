@@ -196,7 +196,7 @@ async function transfer(fshare_file, remote_drive, remote_path) {
 		} else {
             rclone_path = `"${remote_drive}":"${remote_path.replace(/\/$/,'')}/${file_name}"`
             console.log(file_name)
-			transfer_cmd = `curl -o "${file_name}" "${fshare_download_url}" | rclone move --stats-one-line -P --stats 2s "${file_name}" ${rclone_path}`
+			transfer_cmd = `curl -o "${file_name}" "${fshare_download_url}" && rclone move --stats-one-line -P --stats 2s "${file_name}" ${rclone_path}`
 			console.error(GREEN, `Uploading ${fshare_file} to rclone path ${rclone_path}. Please wait...`)
 			console.log(transfer_cmd)
 		}
